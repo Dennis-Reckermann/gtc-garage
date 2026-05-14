@@ -1,0 +1,5 @@
+# Shopify CLI theme environments — https://shopify.dev/docs/storefronts/themes/tools/cli/environments
+# [environments.default] is applied automatically (no --environment flag needed).
+
+[environments.default]
+store = "gtc-garage.myshopify.com"
