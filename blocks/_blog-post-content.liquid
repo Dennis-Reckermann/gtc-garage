@@ -1,17 +1,8 @@
-
-
-<div class="blog-post-content rte">
+<div class="blog-post-content rte page-prose">
   <rte-formatter>
     {{ article.content }}
   </rte-formatter>
 </div>
-
-{% stylesheet %}
-  .blog-post-content {
-    max-width: var(--normal-content-width);
-    margin: 0 auto;
-  }
-{% endstylesheet %}
 
 {% schema %}
 {

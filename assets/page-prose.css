@@ -1,0 +1,146 @@
+/**
+ * Editorial long-form (pages + blog): readable measure, spacing, tables, callouts.
+ * Use real headings (H2/H3), paragraphs, lists, and tables in the Shopify rich text
+ * editor (or Show HTML for .page-prose-callout / .page-prose-note).
+ */
+
+.page-prose {
+  width: 100%;
+  max-width: min(48rem, 100%);
+  margin-inline: auto;
+}
+
+.page-prose rte-formatter {
+  display: block;
+}
+
+/* Typography */
+.page-prose rte-formatter :is(p, li, td, th) {
+  line-height: 1.65;
+}
+
+.page-prose rte-formatter p {
+  margin-block: 0 1.25rem;
+}
+
+.page-prose rte-formatter :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--color-foreground-heading);
+  line-height: 1.2;
+  margin-block: 2rem 0.75rem;
+  text-wrap: balance;
+}
+
+.page-prose rte-formatter :is(h1, h2) {
+  margin-block-start: 0;
+}
+
+.page-prose rte-formatter h2 + p,
+.page-prose rte-formatter h3 + p {
+  margin-block-start: 0;
+}
+
+.page-prose rte-formatter ul,
+.page-prose rte-formatter ol {
+  margin-block: 0 1.25rem;
+  padding-inline-start: 1.35em;
+}
+
+.page-prose rte-formatter li {
+  margin-block-end: 0.5rem;
+}
+
+.page-prose rte-formatter li::marker {
+  color: rgb(var(--color-primary-rgb) / 0.85);
+}
+
+/* Blockquotes → tip / note style (similar to reference “Praktisch advies”) */
+.page-prose rte-formatter blockquote {
+  margin-block: 1.75rem;
+  margin-inline: 0;
+  padding: 1.1rem 1.25rem 1.1rem 1rem;
+  border-inline-start: 4px solid rgb(var(--color-primary-rgb) / 0.9);
+  border-radius: 0 10px 10px 0;
+  background: rgb(var(--color-primary-rgb) / var(--opacity-5-15));
+  font-style: italic;
+  font-weight: 400;
+}
+
+.page-prose rte-formatter blockquote p:last-child {
+  margin-block-end: 0;
+}
+
+/* Tables: card shell + calmer header than default RTE uppercase */
+.page-prose .rte-table-wrapper {
+  margin-block: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgb(var(--color-border-rgb) / var(--opacity-35-55));
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgb(var(--color-shadow-rgb) / 0.06);
+}
+
+.page-prose rte-formatter table {
+  margin-block: 0;
+}
+
+.page-prose rte-formatter :is(thead, tbody) {
+  font-size: 0.95em;
+}
+
+.page-prose rte-formatter thead,
+.page-prose rte-formatter tr:not(:has(td)) {
+  text-transform: none;
+}
+
+.page-prose rte-formatter thead :is(th, td),
+.page-prose rte-formatter tr:not(:has(td)) :is(th, td) {
+  background: rgb(var(--color-primary-rgb) / 0.1);
+  color: var(--color-foreground-heading);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  border-bottom: 1px solid rgb(var(--color-border-rgb) / var(--opacity-35-55));
+}
+
+.page-prose rte-formatter tbody tr:nth-child(even) {
+  background: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
+}
+
+.page-prose rte-formatter tbody tr:nth-child(odd) {
+  background: transparent;
+}
+
+.page-prose rte-formatter tbody tr:has(td) {
+  border-bottom: 1px solid rgb(var(--color-border-rgb) / var(--opacity-10-25));
+}
+
+.page-prose rte-formatter tbody tr:last-child :is(th, td) {
+  border-bottom: none;
+}
+
+.page-prose rte-formatter :is(th, td) {
+  padding: 0.85rem 1rem;
+  vertical-align: top;
+}
+
+/* Optional callout box — use in HTML mode: <div class="page-prose-callout">…</div> */
+.page-prose rte-formatter .page-prose-callout {
+  margin-block: 1.75rem;
+  padding: 1rem 1.15rem;
+  border-radius: 10px;
+  border: 1px solid rgb(var(--color-primary-rgb) / 0.35);
+  background: rgb(var(--color-primary-rgb) / var(--opacity-5-15));
+}
+
+.page-prose rte-formatter .page-prose-callout p:last-child {
+  margin-block-end: 0;
+}
+
+/* Compact “note” line */
+.page-prose rte-formatter .page-prose-note {
+  margin-block: 1.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border-inline-start: 3px solid rgb(var(--color-primary-rgb) / 0.75);
+  background: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
+  font-size: 0.95em;
+}
