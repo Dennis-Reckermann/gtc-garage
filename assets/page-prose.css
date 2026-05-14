@@ -2,16 +2,26 @@
  * Editorial long-form (pages + blog): readable measure, spacing, tables, callouts.
  * Use real headings (H2/H3), paragraphs, lists, and tables in the Shopify rich text
  * editor (or Show HTML for .page-prose-callout / .page-prose-note).
+ *
+ * Plain pasted text with line breaks (no real lists) still reads better with
+ * page-prose--hub + pre-line; for DR-style bullets, use the editor list button or HTML.
  */
 
 .page-prose {
+  box-sizing: border-box;
   width: 100%;
   max-width: min(48rem, 100%);
   margin-inline: auto;
+  /* main-page / blog use column flex with stretch; keep the column narrow and centered */
+  align-self: center;
+  flex: 0 1 auto;
 }
 
 .page-prose rte-formatter {
   display: block;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: rgb(var(--color-foreground-rgb) / 0.95);
 }
 
 /* Typography */
@@ -143,4 +153,10 @@
   border-inline-start: 3px solid rgb(var(--color-primary-rgb) / 0.75);
   background: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
   font-size: 0.95em;
+}
+
+/* Shop the Build hub: line breaks + pasted “- item” lines (still use real <ul> for bullets when you can) */
+.page-prose--hub rte-formatter p {
+  white-space: pre-line;
+  line-height: 1.7;
 }

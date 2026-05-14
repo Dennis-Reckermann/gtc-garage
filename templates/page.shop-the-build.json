@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file may be updated by the Shopify admin
+ * theme editor. Exercise caution when editing in parallel with the editor.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "shop_the_build_hub": {
+      "type": "shop-the-build-hub",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 72,
+        "intro_heading": "What is Shop the Build?",
+        "intro_text": "<p>Shop the Build connects our YouTube and social videos to the tools and accessories we actually use in the garage. Each serious episode gets a landing page so you can discover products from real projects—not a random catalogue.</p>",
+        "youtube_url": "",
+        "placeholder_text": "YouTube embed will appear here when you add a video URL in section settings.",
+        "body_column_label": "On this page",
+        "upcoming_heading": "Upcoming builds",
+        "upcoming_empty_text": "Add “Upcoming build” blocks in the theme editor to tease future series and projects.",
+        "fallback_build_1_title": "Winter prep series",
+        "fallback_build_1_description": "Cold-weather checks, fluids and kits as we film.",
+        "fallback_build_1_link": "",
+        "fallback_build_2_title": "Camper refresh",
+        "fallback_build_2_description": "Storage, 12V basics and layout upgrades.",
+        "fallback_build_2_link": "",
+        "fallback_build_3_title": "Garage tool tests",
+        "fallback_build_3_description": "Honest runs on lights, organizers and hand tools.",
+        "fallback_build_3_link": ""
+      },
+      "blocks": {
+        "upcoming_1": {
+          "type": "upcoming_build",
+          "settings": {
+            "title": "Winter prep series",
+            "description": "Cold-weather checks, fluids and kits as we film.",
+            "link": ""
+          }
+        },
+        "upcoming_2": {
+          "type": "upcoming_build",
+          "settings": {
+            "title": "Camper refresh",
+            "description": "Storage, 12V basics and layout upgrades.",
+            "link": ""
+          }
+        },
+        "upcoming_3": {
+          "type": "upcoming_build",
+          "settings": {
+            "title": "Garage tool tests",
+            "description": "Honest runs on lights, organizers and hand tools.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": ["upcoming_1", "upcoming_2", "upcoming_3"]
+    }
+  },
+  "order": ["shop_the_build_hub"]
+}

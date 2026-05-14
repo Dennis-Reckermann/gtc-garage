@@ -1,0 +1,572 @@
+{%- liquid
+  assign youtube_url = section.settings.youtube_url | strip
+  assign video_id = ''
+  if youtube_url != blank
+    if youtube_url contains 'youtube.com/watch'
+      assign video_id = youtube_url | split: 'v=' | last | split: '&' | first | split: '#' | first
+    elsif youtube_url contains 'youtu.be/'
+      assign video_id = youtube_url | split: 'youtu.be/' | last | split: '?' | first | split: '#' | first
+    elsif youtube_url contains 'youtube.com/embed/'
+      assign video_id = youtube_url | split: 'embed/' | last | split: '?' | first
+    endif
+  endif
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section shop-the-build-hub page-width-content color-{{ section.settings.color_scheme }} spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="shop-the-build-hub__inner">
+    <h1 class="shop-the-build-hub__page-title">{{ page.title }}</h1>
+
+    <div class="shop-the-build-hub__grid">
+      <aside class="shop-the-build-hub__intro-column">
+        {% if section.settings.intro_heading != blank %}
+          <h2 class="shop-the-build-hub__intro-heading h3">{{ section.settings.intro_heading }}</h2>
+        {% endif %}
+        {% if section.settings.intro_text != blank %}
+          <div class="shop-the-build-hub__intro-body rte">{{ section.settings.intro_text }}</div>
+        {% endif %}
+
+        <div class="shop-the-build-hub__video">
+          {% if video_id != blank %}
+            <div class="shop-the-build-hub__video-frame">
+              <iframe
+                class="shop-the-build-hub__iframe"
+                src="https://www.youtube.com/embed/{{ video_id }}"
+                title="{{ page.title | escape }}"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          {% else %}
+            <div class="shop-the-build-hub__video-placeholder">
+              <span class="shop-the-build-hub__video-placeholder-icon" aria-hidden="true">▶</span>
+              <p class="shop-the-build-hub__video-placeholder-text">
+                {{ section.settings.placeholder_text }}
+              </p>
+            </div>
+          {% endif %}
+        </div>
+      </aside>
+
+      <div class="shop-the-build-hub__body-column">
+        <div class="shop-the-build-hub__body-label h6">{{ section.settings.body_column_label }}</div>
+        <div class="page-prose page-prose--hub shop-the-build-hub__rte">
+          <rte-formatter>
+            {{ page.content }}
+          </rte-formatter>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-the-build-hub__upcoming">
+      {% if section.settings.upcoming_heading != blank %}
+        <h2 class="shop-the-build-hub__upcoming-title h3">{{ section.settings.upcoming_heading }}</h2>
+      {% endif %}
+      {% liquid
+        assign upcoming_blocks = section.blocks | where: 'type', 'upcoming_build'
+      %}
+      {% if upcoming_blocks.size > 0 %}
+        <ul class="shop-the-build-hub__upcoming-list" role="list">
+          {% for block in upcoming_blocks %}
+            <li class="shop-the-build-hub__upcoming-item" {{ block.shopify_attributes }}>
+              {% if block.settings.link != blank %}
+                <a class="shop-the-build-hub__upcoming-card shop-the-build-hub__upcoming-link" href="{{ block.settings.link }}">
+                  <span class="shop-the-build-hub__upcoming-card-title">{{ block.settings.title }}</span>
+                  {% if block.settings.description != blank %}
+                    <span class="shop-the-build-hub__upcoming-card-desc">{{ block.settings.description }}</span>
+                  {% endif %}
+                </a>
+              {% else %}
+                <div class="shop-the-build-hub__upcoming-card">
+                  <span class="shop-the-build-hub__upcoming-card-title">{{ block.settings.title }}</span>
+                  {% if block.settings.description != blank %}
+                    <span class="shop-the-build-hub__upcoming-card-desc">{{ block.settings.description }}</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        {% if section.settings.fallback_build_1_title != blank
+          or section.settings.fallback_build_2_title != blank
+          or section.settings.fallback_build_3_title != blank
+        %}
+          <ul class="shop-the-build-hub__upcoming-list" role="list">
+            {% if section.settings.fallback_build_1_title != blank %}
+              <li class="shop-the-build-hub__upcoming-item">
+                {% if section.settings.fallback_build_1_link != blank %}
+                  <a class="shop-the-build-hub__upcoming-card shop-the-build-hub__upcoming-link" href="{{ section.settings.fallback_build_1_link }}">
+                    <span class="shop-the-build-hub__upcoming-card-title">{{ section.settings.fallback_build_1_title }}</span>
+                    {% if section.settings.fallback_build_1_description != blank %}
+                      <span class="shop-the-build-hub__upcoming-card-desc">{{ section.settings.fallback_build_1_description }}</span>
+                    {% endif %}
+                  </a>
+                {% else %}
+                  <div class="shop-the-build-hub__upcoming-card">
+                    <span class="shop-the-build-hub__upcoming-card-title">{{ section.settings.fallback_build_1_title }}</span>
+                    {% if section.settings.fallback_build_1_description != blank %}
+                      <span class="shop-the-build-hub__upcoming-card-desc">{{ section.settings.fallback_build_1_description }}</span>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              </li>
+            {% endif %}
+            {% if section.settings.fallback_build_2_title != blank %}
+              <li class="shop-the-build-hub__upcoming-item">
+                {% if section.settings.fallback_build_2_link != blank %}
+                  <a class="shop-the-build-hub__upcoming-card shop-the-build-hub__upcoming-link" href="{{ section.settings.fallback_build_2_link }}">
+                    <span class="shop-the-build-hub__upcoming-card-title">{{ section.settings.fallback_build_2_title }}</span>
+                    {% if section.settings.fallback_build_2_description != blank %}
+                      <span class="shop-the-build-hub__upcoming-card-desc">{{ section.settings.fallback_build_2_description }}</span>
+                    {% endif %}
+                  </a>
+                {% else %}
+                  <div class="shop-the-build-hub__upcoming-card">
+                    <span class="shop-the-build-hub__upcoming-card-title">{{ section.settings.fallback_build_2_title }}</span>
+                    {% if section.settings.fallback_build_2_description != blank %}
+                      <span class="shop-the-build-hub__upcoming-card-desc">{{ section.settings.fallback_build_2_description }}</span>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              </li>
+            {% endif %}
+            {% if section.settings.fallback_build_3_title != blank %}
+              <li class="shop-the-build-hub__upcoming-item">
+                {% if section.settings.fallback_build_3_link != blank %}
+                  <a class="shop-the-build-hub__upcoming-card shop-the-build-hub__upcoming-link" href="{{ section.settings.fallback_build_3_link }}">
+                    <span class="shop-the-build-hub__upcoming-card-title">{{ section.settings.fallback_build_3_title }}</span>
+                    {% if section.settings.fallback_build_3_description != blank %}
+                      <span class="shop-the-build-hub__upcoming-card-desc">{{ section.settings.fallback_build_3_description }}</span>
+                    {% endif %}
+                  </a>
+                {% else %}
+                  <div class="shop-the-build-hub__upcoming-card">
+                    <span class="shop-the-build-hub__upcoming-card-title">{{ section.settings.fallback_build_3_title }}</span>
+                    {% if section.settings.fallback_build_3_description != blank %}
+                      <span class="shop-the-build-hub__upcoming-card-desc">{{ section.settings.fallback_build_3_description }}</span>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              </li>
+            {% endif %}
+          </ul>
+        {% else %}
+          <p class="shop-the-build-hub__upcoming-empty">{{ section.settings.upcoming_empty_text }}</p>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .shop-the-build-hub__inner {
+    width: 100%;
+    max-width: min(var(--page-content-width, 1200px), 100%);
+    margin-inline: auto;
+    padding-inline: var(--page-margin, 16px);
+  }
+
+  .shop-the-build-hub__page-title {
+    margin: 0 0 clamp(1.25rem, 3vw, 2rem);
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .shop-the-build-hub__grid {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+    align-items: start;
+    margin-block-end: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  @media screen and (min-width: 990px) {
+    .shop-the-build-hub__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    }
+  }
+
+  .shop-the-build-hub__intro-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .shop-the-build-hub__intro-heading {
+    margin: 0;
+  }
+
+  .shop-the-build-hub__intro-body {
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .shop-the-build-hub__video-frame {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgb(var(--color-border-rgb) / var(--opacity-35-55));
+    box-shadow: 0 8px 28px rgb(var(--color-shadow-rgb) / 0.1);
+    aspect-ratio: 16 / 9;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
+  }
+
+  .shop-the-build-hub__iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .shop-the-build-hub__video-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 200px;
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 12px;
+    border: 2px dashed rgb(var(--color-border-rgb) / 0.75);
+    background: rgb(var(--color-primary-rgb) / var(--opacity-5-15));
+    aspect-ratio: 16 / 9;
+    max-height: 320px;
+  }
+
+  .shop-the-build-hub__video-placeholder-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    background: rgb(var(--color-primary-rgb) / 0.2);
+    color: var(--color-foreground-heading);
+    font-size: 1rem;
+  }
+
+  .shop-the-build-hub__video-placeholder-text {
+    margin: 0;
+    max-width: 18rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgb(var(--color-foreground-rgb) / 0.9);
+  }
+
+  .shop-the-build-hub__body-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .shop-the-build-hub__body-label {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+
+  .shop-the-build-hub__rte.page-prose {
+    max-width: none;
+    margin-inline: 0;
+    align-self: stretch;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    border-radius: 16px;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.5);
+    background: var(--color-background);
+    box-shadow: 0 4px 24px rgb(var(--color-shadow-rgb) / 0.06);
+  }
+
+  .shop-the-build-hub__upcoming {
+    padding-block: clamp(2rem, 4vw, 3rem);
+    padding-inline: clamp(1rem, 3vw, 2rem);
+    border-radius: 16px;
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
+    border: 1px solid rgb(var(--color-border-rgb) / 0.45);
+  }
+
+  .shop-the-build-hub__upcoming-title {
+    margin: 0 0 1.25rem;
+    text-align: center;
+  }
+
+  .shop-the-build-hub__upcoming-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media screen and (min-width: 750px) {
+    .shop-the-build-hub__upcoming-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 1100px) {
+    .shop-the-build-hub__upcoming-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .shop-the-build-hub__upcoming-item {
+    margin: 0;
+  }
+
+  .shop-the-build-hub__upcoming-card {
+    height: 100%;
+    padding: 1.1rem 1.2rem;
+    border-radius: 12px;
+    background: var(--color-background);
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .shop-the-build-hub__upcoming-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    height: 100%;
+  }
+
+  .shop-the-build-hub__upcoming-link:hover {
+    border-color: rgb(var(--color-primary-rgb) / 0.45);
+    box-shadow: 0 6px 20px rgb(var(--color-shadow-rgb) / 0.08);
+  }
+
+  .shop-the-build-hub__upcoming-card-title {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--color-foreground-heading);
+  }
+
+  .shop-the-build-hub__upcoming-card-desc {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: rgb(var(--color-foreground-rgb) / 0.88);
+  }
+
+  .shop-the-build-hub__upcoming-empty {
+    margin: 0;
+    text-align: center;
+    font-size: 0.95rem;
+    opacity: 0.85;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Shop the Build hub",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "Intro (left column)"
+    },
+    {
+      "type": "text",
+      "id": "intro_heading",
+      "label": "Intro heading",
+      "default": "What is Shop the Build?"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Introduction",
+      "default": "<p>Shop the Build connects our videos to the tools and accessories we actually use in the garage. Each serious episode gets a landing page so you can discover products from real projects—not a random catalogue.</p>"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube video URL",
+      "info": "Paste a watch or youtu.be link. Leave empty to show the placeholder."
+    },
+    {
+      "type": "textarea",
+      "id": "placeholder_text",
+      "label": "Video placeholder text",
+      "default": "YouTube embed will appear here when you add a video URL in section settings."
+    },
+    {
+      "type": "header",
+      "content": "Main page body (right column)"
+    },
+    {
+      "type": "text",
+      "id": "body_column_label",
+      "label": "Right column label",
+      "default": "On this page"
+    },
+    {
+      "type": "header",
+      "content": "Upcoming builds"
+    },
+    {
+      "type": "text",
+      "id": "upcoming_heading",
+      "label": "Upcoming section heading",
+      "default": "Upcoming builds"
+    },
+    {
+      "type": "textarea",
+      "id": "upcoming_empty_text",
+      "label": "Empty state text",
+      "default": "Add “Upcoming build” blocks below to tease future series and projects."
+    },
+    {
+      "type": "paragraph",
+      "content": "Fallback builds show when there are no Upcoming build blocks (for example when this section is rendered from the default page template). Edit these in the theme code or Theme settings."
+    },
+    {
+      "type": "text",
+      "id": "fallback_build_1_title",
+      "label": "Fallback build 1 title",
+      "default": "Winter prep series"
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_build_1_description",
+      "label": "Fallback build 1 description",
+      "default": "Cold-weather checks, fluids and kits as we film."
+    },
+    {
+      "type": "url",
+      "id": "fallback_build_1_link",
+      "label": "Fallback build 1 link"
+    },
+    {
+      "type": "text",
+      "id": "fallback_build_2_title",
+      "label": "Fallback build 2 title",
+      "default": "Camper refresh"
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_build_2_description",
+      "label": "Fallback build 2 description",
+      "default": "Storage, 12V basics and layout upgrades."
+    },
+    {
+      "type": "url",
+      "id": "fallback_build_2_link",
+      "label": "Fallback build 2 link"
+    },
+    {
+      "type": "text",
+      "id": "fallback_build_3_title",
+      "label": "Fallback build 3 title",
+      "default": "Garage tool tests"
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_build_3_description",
+      "label": "Fallback build 3 description",
+      "default": "Honest runs on lights, organizers and hand tools."
+    },
+    {
+      "type": "url",
+      "id": "fallback_build_3_link",
+      "label": "Fallback build 3 link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "upcoming_build",
+      "name": "Upcoming build",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "New build"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Short description"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop the Build hub",
+      "category": "t:categories.storytelling",
+      "blocks": [
+        {
+          "type": "upcoming_build",
+          "settings": {
+            "title": "Winter prep series",
+            "description": "Cold-weather checks, fluids and kits as we film."
+          }
+        },
+        {
+          "type": "upcoming_build",
+          "settings": {
+            "title": "Camper refresh",
+            "description": "Storage, 12V basics and layout upgrades."
+          }
+        },
+        {
+          "type": "upcoming_build",
+          "settings": {
+            "title": "Garage tool tests",
+            "description": "Honest runs on lights, organizers and hand tools."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

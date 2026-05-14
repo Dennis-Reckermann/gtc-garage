@@ -1,5 +1,3 @@
-
-
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div class="section page-width-content color-{{ section.settings.color_scheme }}">
   <div
@@ -13,6 +11,9 @@
     style="
       {% render 'layout-panel-style', settings: section.settings %}
       {% render 'spacing-style', settings: section.settings %}
+      {% if request.page_type == 'page' %}
+        --horizontal-alignment: center;
+      {% endif %}
     "
   >
     {% content_for 'blocks' %}

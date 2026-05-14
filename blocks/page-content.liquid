@@ -1,4 +1,6 @@
-<div class="page-prose">
+<div
+  class="page-prose{% if page.handle == 'shop-the-build' %} page-prose--hub{% endif %}"
+>
   <rte-formatter>
     {{ page.content }}
   </rte-formatter>
